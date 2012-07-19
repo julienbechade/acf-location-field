@@ -11,7 +11,7 @@ WordPress plugin and will not provide any functionality to WordPress unless Adva
 and activated.
 
 The Location field provides:
-- a search field where you can type in some coordinates or an address and hit `&crarr;`. 
+- a search field where you can type in some coordinates or an address and hit `Enter`. 
 - a Google map which you can click at the desired location.
 In both case, Google will find the location and return the coordinates and the complete address, if you want it complete. A marker will be added at the desired location.
 
