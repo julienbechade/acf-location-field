@@ -11,8 +11,10 @@ WordPress plugin and will not provide any functionality to WordPress unless Adva
 and activated.
 
 The Location field provides:
-- a search field where you can type in some coordinates or an address and hit `Enter`. 
-- a Google map which you can click at the desired location.
+
+* a search field where you can type in some coordinates or an address and hit `Enter`. 
+* a Google map which you can click at the desired location.
+
 In both case, Google will find the location and return the coordinates and the complete address, if you want it complete. A marker will be added at the desired location.
 
 ### Source Repository on GitHub
@@ -41,11 +43,12 @@ Usage
 ### Back-end
 
 The Location field comes with 3 options:
-	1. The map address let you choose the value(s) to return on the front-end:
-		- Coordinates and address (default)
-		- Coordinates only
-	2. The map center let you set the coordinates used to center the initial blank map.
-	3. The map zoom.
+
+1. The map address let you choose the value(s) to return on the front-end:
+	- Coordinates and address (default)
+	- Coordinates only
+2. The map center let you set the coordinates used to center the initial blank map.
+2. The map zoom.
 
 ### Front-end
 
