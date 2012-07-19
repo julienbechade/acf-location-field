@@ -1,0 +1,48 @@
+﻿.location_dl {margin-left:10px;}
+.location_dl::after 
+{
+	content:"";
+	display:table;
+	clear:both;
+}
+.location_dt-address, 
+.location_dt-coordinates 
+{
+	float:left;
+	display:block;
+	width:24px;
+	height:24px;
+	font:0/0 a;
+	color:transparent;
+	background-color:white;
+	background-image:url('img/sprite.png');
+	background-repeat:no-repeat;
+	border-radius:50%;
+	box-shadow:0 0 3px rgba(0, 0, 0, 0.3);
+}
+.location_dt-address {cursor:pointer;}
+.location_dt-address {background-position:5px 5px;}
+.location_dt-address:hover {background-position:5px -20px;}
+.location_dt-coordinates {background-position:5px -45px;}
+.location_dd 
+{
+	height:20px;
+	padding-top:4px;
+	margin-left:30px;
+}
+.location_map 
+{
+	position:relative;
+	z-index:0;
+	width:100%;
+	height:300px;
+	clear:both;
+}
+.location_map-container 
+{
+	position:relative;
+	padding:5px;
+	margin-top:10px;
+	background-color:#fff;
+	box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
