@@ -41,11 +41,11 @@ Usage
 ### Back-end
 
 The Location field comes with 3 options:
-1. The map address let you choose the value(s) to return on the front-end:
-	- Coordinates and address (default)
-	- Coordinates only
-2. The map center let you set the coordinates used to center the initial blank map.
-3. The map zoom.
+	1. The map address let you choose the value(s) to return on the front-end:
+		- Coordinates and address (default)
+		- Coordinates only
+	2. The map center let you set the coordinates used to center the initial blank map.
+	3. The map zoom.
 
 ### Front-end
 
