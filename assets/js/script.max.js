@@ -137,7 +137,6 @@
 				if (address) 
 				{
 					// Display the address
-					locationInput.value = address;
 					ddAddress.innerHTML = address;
 				}
 				if (coordinates) 

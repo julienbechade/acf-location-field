@@ -1,59 +1,70 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: Language <LL@li.org>\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: location-field.php:232
-msgid "Map address"
+#. Text in echo
+#: location-field.php:264
+msgid ""
 msgstr ""
 
-#: location-field.php:233
-msgid "Return the address along with the coordinates."
-msgstr ""
-
-#: location-field.php:243
-msgid "Yes"
-msgstr ""
-
-#: location-field.php:244
-msgid "No"
-msgstr ""
-
-#: location-field.php:252
-msgid "Map center"
-msgstr ""
-
-#: location-field.php:253
-msgid "Latitude and longitude to center the initial map."
-msgstr ""
-
-#: location-field.php:267
-msgid "Map zoom"
-msgstr ""
-
-#: location-field.php:389
-msgid "This address couldn't be found: "
-msgstr ""
-
-#: location-field.php:426
-msgid "This place couldn't be found: "
-msgstr ""
-
-#: location-field.php:549
-msgid "Find the complete address"
-msgstr ""
-
-#: location-field.php:549
+#. Text in echo
+#: location-field.php:328
 msgid "Address: "
 msgstr ""
 
-#: location-field.php:551
+#. Text in echo
+#: location-field.php:330
 msgid "Coordinates: "
+msgstr ""
+
+#. Text in echo
+#: location-field.php:328
+msgid "Find the complete address"
+msgstr ""
+
+#. Text in echo
+#: location-field.php:249
+msgid "Latitude and longitude to center the initial map."
+msgstr ""
+
+#. Text in echo
+#: location-field.php:228
+msgid "Map address"
+msgstr ""
+
+#. Text in echo
+#: location-field.php:248
+msgid "Map center"
+msgstr ""
+
+#. Text in echo
+#: location-field.php:263
+msgid "Map zoom"
+msgstr ""
+
+#. Text in function
+#: location-field.php:267
+msgid "No"
+msgstr ""
+
+#. Text in echo
+#: location-field.php:229
+msgid "Return the address along with the coordinates."
+msgstr ""
+
+#. Text in echo
+#: location-field.php:323
+msgid "This address couldn't be found: "
+msgstr ""
+
+#. Text in echo
+#: location-field.php:323
+msgid "This place couldn't be found: "
+msgstr ""
+
+#. Text in function
+#: location-field.php:267
+msgid "Yes"
 msgstr ""
 

@@ -46,3 +46,61 @@
 	background-color:#fff;
 	box-shadow:0 1px 3px rgba(0,0,0,.2);
 }
+
+/*
+#poststuff 
+{
+	padding-top: 50px!important;
+}
+*/
+
+#formatdiv 
+{
+	position: absolute;
+	left: 250px;
+	top: 10px;
+	
+	height: 20px;
+	margin: 0!important;
+	padding: 0!important;
+	border-bottom: 2px solid #ccc;
+}
+
+#formatdiv .handlediv,
+#formatdiv .hndle 
+{
+	display: none;
+}
+
+#formatdiv.postbox
+{
+	border: none!important;
+	border-bottom: 1px solid #aaa;
+	background: transparent!important;
+	box-shadow: none;
+}
+
+#post-formats-select input,
+#post-formats-select br 
+{
+	display: none;
+}
+
+#post-formats-select label 
+{
+	width: 10%;
+	padding: 2%;
+	background-color: #aaa;
+	border-radius: 10px 10px 0 0;
+}
+
+#post-formats-select label:hover 
+{
+	background-color: #ddd;
+}
+
+#post-formats-select input:checked + label 
+{
+	background-color: #ccc;
+}
+

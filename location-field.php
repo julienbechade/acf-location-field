@@ -8,39 +8,7 @@
 * Version:     1.0
 * Text Domain: acf-location-field
 * Domain Path: /lang/
-* License:     Modified BSD
 */
-?>
-<?php
-/*
- * Copyright (c) 2012, CAMPUS CRUSADE FOR CHRIST
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- * 
- *     Redistributions of source code must retain the above copyright notice, this
- *         list of conditions and the following disclaimer.
- *     Redistributions in binary form must reproduce the above copyright notice,
- *         this list of conditions and the following disclaimer in the documentation
- *         and/or other materials provided with the distribution.
- *     Neither the name of CAMPUS CRUSADE FOR CHRIST nor the names of its
- *         contributors may be used to endorse or promote products derived from this
- *         software without specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
- * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
- * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-?>
-<?php
 
 if( !class_exists( 'ACF_Location_Field' ) && class_exists( 'acf_Field' ) ) :
 
@@ -48,11 +16,11 @@ if( !class_exists( 'ACF_Location_Field' ) && class_exists( 'acf_Field' ) ) :
  * Advanced Custom Fields - Location Field add-on
  * 
  * @author Julien Bechade <julien.bechade@gmail.com>
+ * @contributor Brian Zoetewey <brian.zoetewey@ccci.org>
  * @version 1.0
  *
  */
- 
- 
+
 class ACF_Location_Field extends acf_Field
 {
 	/*
@@ -168,7 +136,7 @@ class ACF_Location_Field extends acf_Field
 	public function admin_print_styles() 
 	{
 		global $pagenow;
-		wp_register_style( 'acf-location-field', $this->base_uri_abs . '/style.css' );
+		wp_register_style( 'acf-location-field', $this->base_uri_abs . '/assets/style.css' );
 		
 		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			wp_enqueue_style( 'acf-location-field' );
@@ -177,7 +145,7 @@ class ACF_Location_Field extends acf_Field
 	
 	public function admin_print_scripts() {
 		global $pagenow;
-		//wp_register_script( 'acf-location-field', $this->base_uri_abs . '/scripts.js', array( 'jquery' ) );
+		//wp_register_script( 'acf-location-field', $this->base_uri_abs . '/assets/scripts.js', array( 'jquery' ) );
 		
 		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			//wp_enqueue_script( 'acf-location-field' );
@@ -320,7 +288,7 @@ class ACF_Location_Field extends acf_Field
 	
 	?>
 	<script type="text/javascript">
-		jQuery(document).ready(function location_<?php echo $uid;?>(){function addMarker(position,address){if(marker){marker.setMap(null)}marker=new google.maps.Marker({map:map,position:position,title:address,draggable:true});map.setCenter(position);dragdropMarker()}function dragdropMarker(){google.maps.event.addListener(marker,'dragend',function(mapEvent){coordinates=mapEvent.latLng.lat()+','+mapEvent.latLng.lng();locateByCoordinates(coordinates)})}function locateByAddress(address){geocoder.geocode({'address':address},function(results,status){if(status==google.maps.GeocoderStatus.OK){addMarker(results[0].geometry.location,address);coordinates=results[0].geometry.location.lat()+','+results[0].geometry.location.lng();coordinatesAddressInput.value=address+'|'+coordinates;ddAddress.innerHTML=address;ddCoordinates.innerHTML=coordinates}else{alert("<?php _e("This address couldn't be found: ",'acf-location-field');?>"+status)}})}function locateByCoordinates(coordinates){latlngTemp=coordinates.split(',',2);lat=parseFloat(latlngTemp[0]);lng=parseFloat(latlngTemp[1]);latlng=new google.maps.LatLng(lat,lng);geocoder.geocode({'latLng':latlng},function(results,status){if(status==google.maps.GeocoderStatus.OK){address=results[0].formatted_address;addMarker(latlng,address);coordinatesAddressInput.value=address+'|'+coordinates;ddAddress.innerHTML=address;ddCoordinates.innerHTML=coordinates}else{alert("<?php _e("This place couldn't be found: ",'acf-location-field');?>"+status)}})}var map,lat,lng,latlng,marker,coordinates,address,val;var geocoder=new google.maps.Geocoder();var ddAddress=document.getElementById('location_dd-address_<?php echo $uid; ?>');var dtAddress=document.getElementById('location_dt-address_<?php echo $uid; ?>');var ddCoordinates=document.getElementById('location_dd-coordinates_<?php echo $uid; ?>');var locationInput=document.getElementById('location_input_<?php echo $uid; ?>');var location=locationInput.value;var coordinatesAddressInput=document.getElementById('location_coordinates-address_<?php echo $uid; ?>');var coordinatesAddress=coordinatesAddressInput.value;if(coordinatesAddress){var coordinatesAddressTemp=coordinatesAddress.split('|',2);coordinates=coordinatesAddressTemp[1];address=coordinatesAddressTemp[0]}if(address){locationInput.value=address;ddAddress.innerHTML=address}if(coordinates){ddCoordinates.innerHTML=coordinates;var latlngTemp=coordinates.split(',',2);lat=parseFloat(latlngTemp[0]);lng=parseFloat(latlngTemp[1])}else{lat=<?php echo $center[0];?>;lng=<?php echo $center[1];?>}latlng=new google.maps.LatLng(lat,lng);var mapOptions={zoom:<?php echo $zoom;?>,center:latlng,mapTypeId:google.maps.MapTypeId.ROADMAP};map=new google.maps.Map(document.getElementById('location_map_<?php echo $uid; ?>'),mapOptions);if(coordinates){addMarker(map.getCenter())}google.maps.event.addListener(map,'click',function(point){locateByCoordinates(point.latLng.lat()+','+point.latLng.lng())});locationInput.addEventListener('keypress',function(event){if(event.keyCode==13){location=locationInput.value;var regexp=new RegExp('^\-?[0-9]{1,3}\.[0-9]{6,},\-?[0-9]{1,3}\.[0-9]{6,}$');if(location){if(regexp.test(location)){locateByCoordinates(location)}else{locateByAddress(location)}}event.stopPropagation();event.preventDefault();return false}},false);dtAddress.addEventListener('click',function(){if(coordinates){locateByCoordinates(coordinates)}},false)});
+		jQuery(document).ready(function location_<?php echo $uid;?>(){function addMarker(position,address){if(marker){marker.setMap(null)}marker=new google.maps.Marker({map:map,position:position,title:address,draggable:true});map.setCenter(position);dragdropMarker()}function dragdropMarker(){google.maps.event.addListener(marker,'dragend',function(mapEvent){coordinates=mapEvent.latLng.lat()+','+mapEvent.latLng.lng();locateByCoordinates(coordinates)})}function locateByAddress(address){geocoder.geocode({'address':address},function(results,status){if(status==google.maps.GeocoderStatus.OK){addMarker(results[0].geometry.location,address);coordinates=results[0].geometry.location.lat()+','+results[0].geometry.location.lng();coordinatesAddressInput.value=address+'|'+coordinates;ddAddress.innerHTML=address;ddCoordinates.innerHTML=coordinates}else{alert("<?php _e("This address couldn't be found: ",'acf-location-field');?>"+status)}})}function locateByCoordinates(coordinates){latlngTemp=coordinates.split(',',2);lat=parseFloat(latlngTemp[0]);lng=parseFloat(latlngTemp[1]);latlng=new google.maps.LatLng(lat,lng);geocoder.geocode({'latLng':latlng},function(results,status){if(status==google.maps.GeocoderStatus.OK){address=results[0].formatted_address;addMarker(latlng,address);coordinatesAddressInput.value=address+'|'+coordinates;ddAddress.innerHTML=address;ddCoordinates.innerHTML=coordinates}else{alert("<?php _e("This place couldn't be found: ",'acf-location-field');?>"+status)}})}var map,lat,lng,latlng,marker,coordinates,address,val;var geocoder=new google.maps.Geocoder();var ddAddress=document.getElementById('location_dd-address_<?php echo $uid; ?>');var dtAddress=document.getElementById('location_dt-address_<?php echo $uid; ?>');var ddCoordinates=document.getElementById('location_dd-coordinates_<?php echo $uid; ?>');var locationInput=document.getElementById('location_input_<?php echo $uid; ?>');var location=locationInput.value;var coordinatesAddressInput=document.getElementById('location_coordinates-address_<?php echo $uid; ?>');var coordinatesAddress=coordinatesAddressInput.value;if(coordinatesAddress){var coordinatesAddressTemp=coordinatesAddress.split('|',2);coordinates=coordinatesAddressTemp[1];address=coordinatesAddressTemp[0]}if(address){ddAddress.innerHTML=address}if(coordinates){ddCoordinates.innerHTML=coordinates;var latlngTemp=coordinates.split(',',2);lat=parseFloat(latlngTemp[0]);lng=parseFloat(latlngTemp[1])}else{lat=<?php echo $center[0];?>;lng=<?php echo $center[1];?>}latlng=new google.maps.LatLng(lat,lng);var mapOptions={zoom:<?php echo $zoom;?>,center:latlng,mapTypeId:google.maps.MapTypeId.ROADMAP};map=new google.maps.Map(document.getElementById('location_map_<?php echo $uid; ?>'),mapOptions);if(coordinates){addMarker(map.getCenter())}google.maps.event.addListener(map,'click',function(point){locateByCoordinates(point.latLng.lat()+','+point.latLng.lng())});locationInput.addEventListener('keypress',function(event){if(event.keyCode==13){location=locationInput.value;var regexp=new RegExp('^\-?[0-9]{1,3}\.[0-9]{6,},\-?[0-9]{1,3}\.[0-9]{6,}$');if(location){if(regexp.test(location)){locateByCoordinates(location)}else{locateByAddress(location)}}event.stopPropagation();event.preventDefault();return false}},false);dtAddress.addEventListener('click',function(){if(coordinates){locateByCoordinates(coordinates)}},false)});
 	</script>
 	<input type="text" id="location_input_<?php echo $uid; ?>" placeholder="Search for a location" />
 	<input type="hidden" value="<?php echo $field['value']; ?>" id="location_coordinates-address_<?php echo $uid; ?>" name="<?php echo $field['name']; ?>"/>
@@ -453,8 +421,10 @@ class ACF_Location_Field_Helper {
 	 * @return ACF_Location_Field_Helper
 	 *
 	 */
-	public static function singleton() {
-		if( !isset( self::$instance ) ) {
+	public static function singleton() 
+	{
+		if( !isset( self::$instance ) ) 
+		{
 			$class = __CLASS__;
 			self::$instance = new $class();
 		}
@@ -466,7 +436,9 @@ class ACF_Location_Field_Helper {
 	 * @internal
 	 *
 	 */
-	private function __clone() {
+	private function __clone() 
+	{
+		
 	}
 	
 	/*
@@ -491,7 +463,8 @@ class ACF_Location_Field_Helper {
 	 * Constructor
 	 *
 	 */
-	private function __construct() {
+	private function __construct() 
+	{
 		$this->lang_dir = rtrim( dirname( realpath( __FILE__ ) ), '/' ) . '/lang';
 		
 		add_action( 'init', array( &$this, 'register_field' ),  5, 0 );
@@ -502,8 +475,10 @@ class ACF_Location_Field_Helper {
 	 * Registers the Field with Advanced Custom Fields
 	 *
 	 */
-	public function register_field() {
-		if( function_exists( 'register_field' ) ) {
+	public function register_field() 
+	{
+		if( function_exists( 'register_field' ) ) 
+		{
 			register_field( 'ACF_Location_Field', __FILE__ );
 		}
 	}
@@ -512,7 +487,8 @@ class ACF_Location_Field_Helper {
 	 * Loads the textdomain for the current locale if it exists
 	 *
 	 */
-	public function load_textdomain() {
+	public function load_textdomain() 
+	{
 		$locale = get_locale();
 		$mofile = $this->lang_dir . '/' . self::L10N_DOMAIN . '-' . $locale . '.mo';
 		load_textdomain( self::L10N_DOMAIN, $mofile );
