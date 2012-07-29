@@ -30,6 +30,8 @@ https://github.com/julienbechade/acf-location-field/issues
 
 = Usage =
 
+Make sure you read the [Advanced Custom Fields](http://www.advancedcustomfields.com/docs/getting-started/)'s documentation first.
+
 **Back-end**
 
 The Location field comes with 3 options:

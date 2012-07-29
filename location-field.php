@@ -83,11 +83,14 @@ class ACF_Location_Field extends acf_Field
 		$root = array_pop( explode( DIRECTORY_SEPARATOR, rtrim( realpath( ABSPATH ), DIRECTORY_SEPARATOR ) ) );
 		$path_parts = explode( DIRECTORY_SEPARATOR, $this->base_dir );
 		$parts = array();
-		while( $part = array_pop( $path_parts ) ) {
+		
+		while( $part = array_pop( $path_parts ) ) 
+		{
 			if( $part == $root )
 				break;
 			array_unshift( $parts, $part );
 		}
+		
 		$this->base_uri_rel = '/' . implode( '/', $parts );
 		$this->base_uri_abs = get_site_url( null, $this->base_uri_rel );
 		
@@ -136,18 +139,21 @@ class ACF_Location_Field extends acf_Field
 	public function admin_print_styles() 
 	{
 		global $pagenow;
-		wp_register_style( 'acf-location-field', $this->base_uri_abs . '/assets/style.css' );
+		wp_register_style( 'acf-location-field', $this->base_uri_abs . '/style.css' );
 		
-		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) 
+		{
 			wp_enqueue_style( 'acf-location-field' );
 		}
 	}
 	
-	public function admin_print_scripts() {
+	public function admin_print_scripts() 
+	{
 		global $pagenow;
-		//wp_register_script( 'acf-location-field', $this->base_uri_abs . '/assets/scripts.js', array( 'jquery' ) );
+		//wp_register_script( 'acf-location-field', $this->base_uri_abs . '/js/script.js', array( 'jquery' ) );
 		
-		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) 
+		{
 			//wp_enqueue_script( 'acf-location-field' );
 		}
 	}

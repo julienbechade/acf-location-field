@@ -17,6 +17,9 @@ The Location field provides:
 
 In both cases, Google will find the location and return the coordinates and the complete address, if you want it complete. A marker will be added at the desired location.
 
+### Download on Wordpress.org
+http://wordpress.org/extend/plugins/advanced-custom-fields-location-field-add-on/
+
 ### Source Repository on GitHub
 https://github.com/julienbechade/acf-location-field
 
@@ -25,6 +28,8 @@ https://github.com/julienbechade/acf-location-field/issues
 
 Usage
 -----
+
+Make sure you read the [Advanced Custom Fields](http://www.advancedcustomfields.com/docs/getting-started/)'s documentation first.
 
 ### Back-end
 
