@@ -87,3 +87,8 @@ Changelog
 ### 1.0
 
 * Initial release
+
+Hats off
+---------
+
+To [Zvonko Biskup](http://codeforest.net) –aka @codeforest– who developed the [first version](http://www.codeforest.net/wordpress-how-to-make-custom-post-field-using-advanced-custom-fields-plugin) of this add-on.
