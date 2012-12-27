@@ -24,29 +24,6 @@ if( !class_exists( 'ACF_Location_Field' ) && class_exists( 'acf_Field' ) ) :
 class ACF_Location_Field extends acf_Field
 {
 	/*
-	 * Base directory
-	 * @var string
-	 *
-	 */
-	private $base_dir;
-	
-	/*
-	 * Relative Uri from the WordPress ABSPATH constant
-	 * @var string
-	 *
-	 */
-	private $base_uri_rel;
-	
-	/*
-	 * Absolute Uri
-	 * 
-	 * This is used to create urls to CSS and JavaScript files.
-	 * @var string
-	 *
-	 */
-	private $base_uri_abs;
-	
-	/*
 	 * WordPress Localization Text Domain
 	 * 
 	 * The textdomain for the field is controlled by the helper class.
@@ -75,25 +52,6 @@ class ACF_Location_Field extends acf_Field
 		//Get the textdomain from the Helper class
 		$this->l10n_domain = ACF_Location_Field_Helper::L10N_DOMAIN;
 		
-		//Base directory of this field
-		$this->base_dir = rtrim( dirname( realpath( __FILE__ ) ), DIRECTORY_SEPARATOR );
-		
-		//Build the base relative uri by searching backwards until we encounter the wordpress ABSPATH
-		//This may not work if the $base_dir contains a symlink outside of the WordPress ABSPATH
-		$root = array_pop( explode( DIRECTORY_SEPARATOR, rtrim( realpath( ABSPATH ), DIRECTORY_SEPARATOR ) ) );
-		$path_parts = explode( DIRECTORY_SEPARATOR, $this->base_dir );
-		$parts = array();
-		
-		while( $part = array_pop( $path_parts ) ) 
-		{
-			if( $part == $root )
-				break;
-			array_unshift( $parts, $part );
-		}
-		
-		$this->base_uri_rel = '/' . implode( '/', $parts );
-		$this->base_uri_abs = get_site_url( null, $this->base_uri_rel );
-		
     	// set name / title
     	$this->name = 'location-field'; // variable name (no spaces / special characters / etc)
 		$this->title = __( 'Location', $this->l10n_domain ); // field label (Displayed in edit screens)
@@ -118,9 +76,7 @@ class ACF_Location_Field extends acf_Field
 	
 	public function admin_head()
 	{
-	?>
-		<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
-	<?php
+		echo '<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>';
 	}
 	
 	
@@ -139,9 +95,9 @@ class ACF_Location_Field extends acf_Field
 	public function admin_print_styles() 
 	{
 		global $pagenow;
-		wp_register_style( 'acf-location-field', $this->base_uri_abs . '/style.css' );
+		wp_register_style( 'acf-location-field', plugins_url( 'style.css', __FILE__ ) );
 		
-		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) 
+		if( in_array( $pagenow, array( 'post.php', 'post-new.php', 'admin.php' ) ) ) 
 		{
 			wp_enqueue_style( 'acf-location-field' );
 		}
