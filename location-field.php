@@ -393,7 +393,7 @@ class ACF_Location_Field extends acf_Field
 			$value = array( 'coordinates' => $value[1], 'address' => $value[0] );
 		}
 		else {
-			$value = $value[0];
+			$value = $value[1];
 		}
 		
 		// return value
