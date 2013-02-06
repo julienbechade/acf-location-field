@@ -388,7 +388,7 @@ class ACF_Location_Field extends acf_Field
 		
 		// format value
 		$value = explode('|', $value);
-		if ($field['val'] == 'address') 
+		if ( $field['val'] == 'address' && count( $value ) >=2 )  
 		{
 			$value = array( 'coordinates' => $value[1], 'address' => $value[0] );
 		}
