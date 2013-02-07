@@ -130,6 +130,7 @@ class ACF_Location_Field extends acf_Field
 		$field['center'] = isset($field['center']) ? $field['center'] : '48.856614,2.3522219000000177';
 		$field['zoom'] = isset($field['zoom']) ? $field['zoom'] : '2';
 		$field['val'] = isset($field['val']) ? $field['val'] : 'address';
+		$field['scrollwheel'] = isset($field['scrollwheel']) ? $field['scrollwheel'] : '1';
 	}
 	
 	
@@ -203,6 +204,26 @@ class ACF_Location_Field extends acf_Field
 				?>
 			</td>
 		</tr>
+		<tr class="field_option field_option_<?php echo $this->name; ?>">
+			<td class="label">
+				<label><?php _e('Map Scrollwheel','acf-location-field'); ?></label>
+				<p class="description"><?php _e('Allows scrollwheel zooming on the map field','acf-location-field'); ?></p>
+			</td>
+			<td>
+				<?php 
+				$this->parent->create_field(array(
+					'type' => 'radio',
+					'name' => 'fields['.$key.'][scrollwheel]',
+					'value' => $field['scrollwheel'],
+					'layout' => 'horizontal',
+					'choices' => array(
+						'1' => __('Yes', 'acf-location-field'),
+						'0' => __('No', 'acf-location-field')
+					)
+				));
+				?>
+			</td>
+		</tr>
 		<?php
 	}
 	
@@ -246,11 +267,12 @@ class ACF_Location_Field extends acf_Field
 		$uid = preg_replace($pattern, $replace, $field['name']);
 		// Retrieve options value
 		$zoom = $field['zoom'];
-		$center = explode(',', $field['center']);
+		$center = explode(',', $field['center']);		
+		$scrollwheel = $field['scrollwheel'];
 	
 	?>
 	<script type="text/javascript">
-		jQuery(document).ready(function location_<?php echo $uid;?>(){function addMarker(position,address){if(marker){marker.setMap(null)}marker=new google.maps.Marker({map:map,position:position,title:address,draggable:true});map.setCenter(position);dragdropMarker()}function dragdropMarker(){google.maps.event.addListener(marker,'dragend',function(mapEvent){coordinates=mapEvent.latLng.lat()+','+mapEvent.latLng.lng();locateByCoordinates(coordinates)})}function locateByAddress(address){geocoder.geocode({'address':address},function(results,status){if(status==google.maps.GeocoderStatus.OK){addMarker(results[0].geometry.location,address);coordinates=results[0].geometry.location.lat()+','+results[0].geometry.location.lng();coordinatesAddressInput.value=address+'|'+coordinates;ddAddress.innerHTML=address;ddCoordinates.innerHTML=coordinates}else{alert("<?php _e("This address couldn't be found: ",'acf-location-field');?>"+status)}})}function locateByCoordinates(coordinates){latlngTemp=coordinates.split(',',2);lat=parseFloat(latlngTemp[0]);lng=parseFloat(latlngTemp[1]);latlng=new google.maps.LatLng(lat,lng);geocoder.geocode({'latLng':latlng},function(results,status){if(status==google.maps.GeocoderStatus.OK){address=results[0].formatted_address;addMarker(latlng,address);coordinatesAddressInput.value=address+'|'+coordinates;ddAddress.innerHTML=address;ddCoordinates.innerHTML=coordinates}else{alert("<?php _e("This place couldn't be found: ",'acf-location-field');?>"+status)}})}var map,lat,lng,latlng,marker,coordinates,address,val;var geocoder=new google.maps.Geocoder();var ddAddress=document.getElementById('location_dd-address_<?php echo $uid; ?>');var dtAddress=document.getElementById('location_dt-address_<?php echo $uid; ?>');var ddCoordinates=document.getElementById('location_dd-coordinates_<?php echo $uid; ?>');var locationInput=document.getElementById('location_input_<?php echo $uid; ?>');var location=locationInput.value;var coordinatesAddressInput=document.getElementById('location_coordinates-address_<?php echo $uid; ?>');var coordinatesAddress=coordinatesAddressInput.value;if(coordinatesAddress){var coordinatesAddressTemp=coordinatesAddress.split('|',2);coordinates=coordinatesAddressTemp[1];address=coordinatesAddressTemp[0]}if(address){ddAddress.innerHTML=address}if(coordinates){ddCoordinates.innerHTML=coordinates;var latlngTemp=coordinates.split(',',2);lat=parseFloat(latlngTemp[0]);lng=parseFloat(latlngTemp[1])}else{lat=<?php echo $center[0];?>;lng=<?php echo $center[1];?>}latlng=new google.maps.LatLng(lat,lng);var mapOptions={zoom:<?php echo $zoom;?>,center:latlng,mapTypeId:google.maps.MapTypeId.ROADMAP};map=new google.maps.Map(document.getElementById('location_map_<?php echo $uid; ?>'),mapOptions);if(coordinates){addMarker(map.getCenter())}google.maps.event.addListener(map,'click',function(point){locateByCoordinates(point.latLng.lat()+','+point.latLng.lng())});locationInput.addEventListener('keypress',function(event){if(event.keyCode==13){location=locationInput.value;var regexp=new RegExp('^\-?[0-9]{1,3}\.[0-9]{6,},\-?[0-9]{1,3}\.[0-9]{6,}$');if(location){if(regexp.test(location)){locateByCoordinates(location)}else{locateByAddress(location)}}event.stopPropagation();event.preventDefault();return false}},false);dtAddress.addEventListener('click',function(){if(coordinates){locateByCoordinates(coordinates)}},false)});
+		jQuery(document).ready(function location_<?php echo $uid;?>(){function addMarker(position,address){if(marker){marker.setMap(null)}marker=new google.maps.Marker({map:map,position:position,title:address,draggable:true});map.setCenter(position);dragdropMarker()}function dragdropMarker(){google.maps.event.addListener(marker,'dragend',function(mapEvent){coordinates=mapEvent.latLng.lat()+','+mapEvent.latLng.lng();locateByCoordinates(coordinates)})}function locateByAddress(address){geocoder.geocode({'address':address},function(results,status){if(status==google.maps.GeocoderStatus.OK){addMarker(results[0].geometry.location,address);coordinates=results[0].geometry.location.lat()+','+results[0].geometry.location.lng();coordinatesAddressInput.value=address+'|'+coordinates;ddAddress.innerHTML=address;ddCoordinates.innerHTML=coordinates}else{alert("<?php _e("This address couldn't be found: ",'acf-location-field');?>"+status)}})}function locateByCoordinates(coordinates){latlngTemp=coordinates.split(',',2);lat=parseFloat(latlngTemp[0]);lng=parseFloat(latlngTemp[1]);latlng=new google.maps.LatLng(lat,lng);geocoder.geocode({'latLng':latlng},function(results,status){if(status==google.maps.GeocoderStatus.OK){address=results[0].formatted_address;addMarker(latlng,address);coordinatesAddressInput.value=address+'|'+coordinates;ddAddress.innerHTML=address;ddCoordinates.innerHTML=coordinates}else{alert("<?php _e("This place couldn't be found: ",'acf-location-field');?>"+status)}})}var map,lat,lng,latlng,marker,coordinates,address,val;var geocoder=new google.maps.Geocoder();var ddAddress=document.getElementById('location_dd-address_<?php echo $uid; ?>');var dtAddress=document.getElementById('location_dt-address_<?php echo $uid; ?>');var ddCoordinates=document.getElementById('location_dd-coordinates_<?php echo $uid; ?>');var locationInput=document.getElementById('location_input_<?php echo $uid; ?>');var location=locationInput.value;var coordinatesAddressInput=document.getElementById('location_coordinates-address_<?php echo $uid; ?>');var coordinatesAddress=coordinatesAddressInput.value;if(coordinatesAddress){var coordinatesAddressTemp=coordinatesAddress.split('|',2);coordinates=coordinatesAddressTemp[1];address=coordinatesAddressTemp[0]}if(address){ddAddress.innerHTML=address}if(coordinates){ddCoordinates.innerHTML=coordinates;var latlngTemp=coordinates.split(',',2);lat=parseFloat(latlngTemp[0]);lng=parseFloat(latlngTemp[1])}else{lat=<?php echo $center[0];?>;lng=<?php echo $center[1];?>}latlng=new google.maps.LatLng(lat,lng);var mapOptions={zoom:<?php echo $zoom;?>,center:latlng,mapTypeId:google.maps.MapTypeId.ROADMAP,scrollwheel: <?php echo $scrollwheel; ?>};map=new google.maps.Map(document.getElementById('location_map_<?php echo $uid; ?>'),mapOptions);if(coordinates){addMarker(map.getCenter())}google.maps.event.addListener(map,'click',function(point){locateByCoordinates(point.latLng.lat()+','+point.latLng.lng())});locationInput.addEventListener('keypress',function(event){if(event.keyCode==13){location=locationInput.value;var regexp=new RegExp('^\-?[0-9]{1,3}\.[0-9]{6,},\-?[0-9]{1,3}\.[0-9]{6,}$');if(location){if(regexp.test(location)){locateByCoordinates(location)}else{locateByAddress(location)}}event.stopPropagation();event.preventDefault();return false}},false);dtAddress.addEventListener('click',function(){if(coordinates){locateByCoordinates(coordinates)}},false)});
 	</script>
 	<input type="hidden" value="<?php echo $field['value']; ?>" id="location_coordinates-address_<?php echo $uid; ?>" name="<?php echo $field['name']; ?>"/>
 	<input type="text" id="location_input_<?php echo $uid; ?>" placeholder="<?php _e('Search for a location','acf-location-field'); ?>" />
