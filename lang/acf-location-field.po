@@ -68,8 +68,3 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#. Text in function
-#: location-field.php:299
-msgid "Search for a location"
-msgstr ""
-
