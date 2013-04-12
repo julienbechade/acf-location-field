@@ -1,16 +1,6 @@
 <?php
-/*
-* Plugin Name: Advanced Custom Fields - Location Field add-on
-* Plugin URI:  https://github.com/julienbechade/acf-location-field
-* Description: This plugin is an add-on for Advanced Custom Fields. It allows you to find coordinates and/or address of a location with Google Maps.
-* Author:      Julien Bechade
-* Author URI:  http://julienbechade.com/
-* Version:     1.0
-* Text Domain: acf-location-field
-* Domain Path: /lang/
-*/
 
-if( !class_exists( 'ACF_Location_Field' ) && class_exists( 'acf_Field' ) ) :
+if( !class_exists( 'ACF_Location_Field' ) && class_exists( 'acf_field' ) ) :
 
 /*
  * Advanced Custom Fields - Location Field add-on
@@ -21,7 +11,7 @@ if( !class_exists( 'ACF_Location_Field' ) && class_exists( 'acf_Field' ) ) :
  *
  */
 
-class ACF_Location_Field extends acf_Field
+class ACF_Location_Field extends acf_field
 {
 	/*
 	 * WordPress Localization Text Domain
@@ -44,21 +34,17 @@ class ACF_Location_Field extends acf_Field
 	*
 	*-------------------------------------------------------------------------------------*/
 
-	public function __construct($parent)
+	public function __construct()
 	{
-		//Call parent constructor
-    	parent::__construct($parent);
 
 		//Get the textdomain from the Helper class
-		$this->l10n_domain = ACF_Location_Field_Helper::L10N_DOMAIN;
+		$this->l10n_domain = acf_location_plugin::L10N_DOMAIN;
 
     	// set name / title
     	$this->name = 'location-field'; // variable name (no spaces / special characters / etc)
-		$this->title = __( 'Location', $this->l10n_domain ); // field label (Displayed in edit screens)
+		$this->label = __( 'Location', $this->l10n_domain ); // field label (Displayed in edit screens)
 
-		add_action( 'admin_print_scripts', array( &$this, 'admin_print_scripts' ), 12, 0 );
-		add_action( 'admin_print_styles',  array( &$this, 'admin_print_styles' ),  12, 0 );
-
+    	parent::__construct();
    	}
 
 
@@ -74,9 +60,20 @@ class ACF_Location_Field extends acf_Field
 	*
 	*-------------------------------------------------------------------------------------*/
 
-	public function admin_head()
+	public function input_admin_head()
 	{
 		echo '<script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>';
+	}
+
+	public function input_admin_enqueue_scripts()
+	{
+		global $pagenow;
+		wp_register_style( 'acf-location-field', plugins_url( 'style.css', __FILE__ ) );
+
+		if( in_array( $pagenow, array( 'post.php', 'post-new.php', 'admin.php' ) ) )
+		{
+			wp_enqueue_style( 'acf-location-field' );
+		}
 	}
 
 
@@ -92,7 +89,7 @@ class ACF_Location_Field extends acf_Field
 	*
 	*-------------------------------------------------------------------------------------*/
 
-	public function admin_print_styles()
+	public function field_group_admin_enqueue_scripts()
 	{
 		global $pagenow;
 		wp_register_style( 'acf-location-field', plugins_url( 'style.css', __FILE__ ) );
@@ -100,17 +97,6 @@ class ACF_Location_Field extends acf_Field
 		if( in_array( $pagenow, array( 'post.php', 'post-new.php', 'admin.php' ) ) )
 		{
 			wp_enqueue_style( 'acf-location-field' );
-		}
-	}
-
-	public function admin_print_scripts()
-	{
-		global $pagenow;
-		//wp_register_script( 'acf-location-field', $this->base_uri_abs . '/js/script.js', array( 'jquery' ) );
-
-		if( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) )
-		{
-			//wp_enqueue_script( 'acf-location-field' );
 		}
 	}
 
@@ -141,7 +127,6 @@ class ACF_Location_Field extends acf_Field
 	*	for your field
 	*
 	*	@params
-	*	- $key (int) - the $_POST obejct key required to save the options to the field
 	*	- $field (array) - the field object
 	*
 	*	@author Elliot Condon
@@ -149,10 +134,10 @@ class ACF_Location_Field extends acf_Field
 	*
 	*-------------------------------------------------------------------------------------*/
 
-	public function create_options($key, $field)
+	public function create_options($field)
 	{
 		$this->set_field_defaults($field);
-
+		$key = $field['name'];
 		?>
 		<tr class="field_option field_option_<?php echo $this->name; ?>">
 			<td class="label">
@@ -161,7 +146,7 @@ class ACF_Location_Field extends acf_Field
 			</td>
 			<td>
 				<?php
-				$this->parent->create_field(array(
+		do_action('acf/create_field', array(
 					'type' => 'radio',
 					'name' => 'fields['.$key.'][val]',
 					'value' => $field['val'],
@@ -170,7 +155,7 @@ class ACF_Location_Field extends acf_Field
 						'address' => __('Yes', 'acf-location-field'),
 						'coordinates' => __('No', 'acf-location-field')
 					)
-				));
+		));
 				?>
 			</td>
 		</tr>
@@ -181,11 +166,13 @@ class ACF_Location_Field extends acf_Field
 			</td>
 			<td>
 				<?php
-				$this->parent->create_field(array(
+		do_action('acf/create_field', array(
 					'type'	=>	'text',
 					'name'	=>	'fields['.$key.'][center]',
 					'value'	=>	$field['center']
-				));
+		));
+
+
 				?>
 			</td>
 		</tr>
@@ -196,11 +183,11 @@ class ACF_Location_Field extends acf_Field
 			</td>
 			<td>
 				<?php
-				$this->parent->create_field(array(
-					'type'	=>	'text',
-					'name'	=>	'fields['.$key.'][zoom]',
-					'value'	=>	$field['zoom']
-				));
+				    do_action('acf/create_field', array(
+					    'type'	=>	'text',
+					    'name'	=>	'fields['.$key.'][zoom]',
+					    'value'	=>	$field['zoom']
+					));
 				?>
 			</td>
 		</tr>
@@ -211,7 +198,7 @@ class ACF_Location_Field extends acf_Field
 			</td>
 			<td>
 				<?php
-				$this->parent->create_field(array(
+				    do_action('acf/create_field', array(
 					'type' => 'radio',
 					'name' => 'fields['.$key.'][scrollwheel]',
 					'value' => $field['scrollwheel'],
@@ -220,31 +207,13 @@ class ACF_Location_Field extends acf_Field
 						'1' => __('Yes', 'acf-location-field'),
 						'0' => __('No', 'acf-location-field')
 					)
-				));
+					  ));
 				?>
 			</td>
 		</tr>
 		<?php
 	}
 
-
-	/*--------------------------------------------------------------------------------------
-	*
-	*	pre_save_field
-	*	- this function is called when saving your acf object. Here you can manipulate the
-	*	field object and it's options before it gets saved to the database.
-	*
-	*	@author Elliot Condon
-	*	@since 2.2.0
-	*
-	*-------------------------------------------------------------------------------------*/
-
-	public function pre_save_field($field)
-	{
-		// do stuff with field (mostly format options data)
-
-		return parent::pre_save_field($field);
-	}
 
 
 	/*--------------------------------------------------------------------------------------
@@ -400,60 +369,6 @@ class ACF_Location_Field extends acf_Field
 	<?php
 	}
 
-	/*--------------------------------------------------------------------------------------
-	*
-	*	update_value
-	*	- this function is called when saving a post object that your field is assigned to.
-	*	the function will pass through the 3 parameters for you to use.
-	*
-	*	@params
-	*	- $post_id (int) - usefull if you need to save extra data or manipulate the current
-	*	post object
-	*	- $field (array) - usefull if you need to manipulate the $value based on a field option
-	*	- $value (mixed) - the new value of your field.
-	*
-	*	@author Elliot Condon
-	*	@since 2.2.0
-	*
-	*-------------------------------------------------------------------------------------*/
-
-	public function update_value($post_id, $field, $value)
-	{
-		// do stuff with value
-
-		// save value
-		parent::update_value($post_id, $field, $value);
-	}
-
-
-
-
-
-	/*--------------------------------------------------------------------------------------
-	*
-	*	get_value
-	*	- called from the edit page to get the value of your field. This function is useful
-	*	if your field needs to collect extra data for your create_field() function.
-	*
-	*	@params
-	*	- $post_id (int) - the post ID which your value is attached to
-	*	- $field (array) - the field object.
-	*
-	*	@author Elliot Condon
-	*	@since 2.2.0
-	*
-	*-------------------------------------------------------------------------------------*/
-
-	public function get_value($post_id, $field)
-	{
-		// get value
-		$value = parent::get_value($post_id, $field);
-
-		// format value
-
-		// return value
-		return $value;
-	}
 
 
 	/*--------------------------------------------------------------------------------------
@@ -494,104 +409,7 @@ class ACF_Location_Field extends acf_Field
 }
 endif; //class_exists 'ACF_Location_Field'
 
-if( !class_exists( 'ACF_Location_Field_Helper' ) ) :
 
-/*
- * Advanced Custom Fields - Location Field Helper
- *
- * @author Brian Zoetewey <brian.zoetewey@ccci.org>
- *
- */
-class ACF_Location_Field_Helper {
-	/*
-	 * Singleton instance
-	 * @var ACF_Location_Field_Helper
-	 *
-	 */
-	private static $instance;
+new ACF_Location_Field();
 
-	/*
-	 * Returns the ACF_Location_Field_Helper singleton
-	 *
-	 * <code>$obj = ACF_Location_Field_Helper::singleton();</code>
-	 * @return ACF_Location_Field_Helper
-	 *
-	 */
-	public static function singleton()
-	{
-		if( !isset( self::$instance ) )
-		{
-			$class = __CLASS__;
-			self::$instance = new $class();
-		}
-		return self::$instance;
-	}
-
-	/*
-	 * Prevent cloning of the ACF_Location_Field_Helper object
-	 * @internal
-	 *
-	 */
-	private function __clone()
-	{
-
-	}
-
-	/*
-	* WordPress Localization Text Domain
-	*
-	* Used in wordpress localization and translation methods.
-	* @var string
-	*
-	*/
-	const L10N_DOMAIN = 'acf-location-field';
-
-	/*
-	 * Language directory path
-	 *
-	 * Used to build the path for WordPress localization files.
-	 * @var string
-	 *
-	 */
-	private $lang_dir;
-
-	/*
-	 * Constructor
-	 *
-	 */
-	private function __construct()
-	{
-		$this->lang_dir = rtrim( dirname( realpath( __FILE__ ) ), '/' ) . '/lang';
-
-		add_action( 'init', array( &$this, 'register_field' ),  5, 0 );
-		add_action( 'init', array( &$this, 'load_textdomain' ), 2, 0 );
-	}
-
-	/*
-	 * Registers the Field with Advanced Custom Fields
-	 *
-	 */
-	public function register_field()
-	{
-		if( function_exists( 'register_field' ) )
-		{
-			register_field( 'ACF_Location_Field', __FILE__ );
-		}
-	}
-
-	/*
-	 * Loads the textdomain for the current locale if it exists
-	 *
-	 */
-	public function load_textdomain()
-	{
-		$locale = get_locale();
-		$mofile = $this->lang_dir . '/' . self::L10N_DOMAIN . '-' . $locale . '.mo';
-		load_textdomain( self::L10N_DOMAIN, $mofile );
-	}
-}
-endif; //class_exists 'ACF_Location_Field_Helper'
-
-//Instantiate the Addon Helper class
-ACF_Location_Field_Helper::singleton();
 ?>
