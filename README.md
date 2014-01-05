@@ -1,4 +1,6 @@
-﻿Advanced Custom Fields - Location Field add-on
+This field has been merged in core, please don't use this plugin anymore. See [ACF 4.3.0](http://www.advancedcustomfields.com/to-do#4.3.0)  
+
+﻿ACF - Location Field add-on
 ==============================================
 
 Adds a Location field to Advanced Custom Fields. This field allows you to find addresses and coordinates of a desired location.
